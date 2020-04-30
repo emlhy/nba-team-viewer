@@ -1,6 +1,6 @@
 package com.example.nbateamviewer.ui
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -10,18 +10,14 @@ import com.example.nbateamviewer.R
 import com.example.nbateamviewer.adapter.TeamAdapter
 import com.example.nbateamviewer.data.TeamEntry
 import com.example.nbateamviewer.db.NBADatabase
-import com.example.nbateamviewer.db.TeamDao
 import com.example.nbateamviewer.network.ConnectivityInterceptorImpl
 import com.example.nbateamviewer.network.NBAApiService
-import com.example.nbateamviewer.network.NBADataSource
 import com.example.nbateamviewer.network.NBADataSourceImpl
-import com.example.nbateamviewer.repository.NBARepositoryImpl
+import com.example.nbateamviewer.repository.TeamRepositoryImpl
 import com.example.nbateamviewer.viewmodel.TeamViewModel
 import com.example.nbateamviewer.viewmodel.TeamViewModelFactory
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.header_team.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class MainActivity : ScopedActivity(), TeamAdapter.OnItemClickListener {
@@ -42,8 +38,8 @@ class MainActivity : ScopedActivity(), TeamAdapter.OnItemClickListener {
         val nbaDataSource = NBADataSourceImpl(apiService)
         val teamDao = NBADatabase(this).teamDao()
         val playerDao = NBADatabase(this).playerDao()
-        val nbaRepository = NBARepositoryImpl(teamDao, playerDao, nbaDataSource)
-        viewModelFactory = TeamViewModelFactory(nbaRepository)
+        val teamRepository = TeamRepositoryImpl(teamDao, playerDao, nbaDataSource)
+        viewModelFactory = TeamViewModelFactory(teamRepository)
         viewModel = ViewModelProvider(this, viewModelFactory).get(TeamViewModel::class.java)
 
         bindUI()
@@ -51,6 +47,7 @@ class MainActivity : ScopedActivity(), TeamAdapter.OnItemClickListener {
     }
 
     private fun bindUI() = launch{
+        toolbar.title = "NBA Teams"
         val nbaData = viewModel.teams.await()
         teamAdapter = TeamAdapter(this@MainActivity)
         linearLayoutManager = LinearLayoutManager(this@MainActivity)
@@ -59,7 +56,7 @@ class MainActivity : ScopedActivity(), TeamAdapter.OnItemClickListener {
         nbaData.observe(this@MainActivity, Observer {
             if (it == null) return@Observer
 
-            val sortedList = it.sortedWith(compareBy({it.fullName}))
+            val sortedList = it.sortedWith(compareBy {it.fullName})
             teamAdapter.setTeamList(sortedList)
             teamRecyclerView.adapter = teamAdapter
         })
@@ -99,6 +96,12 @@ class MainActivity : ScopedActivity(), TeamAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(position: Int) {
-        TODO("Not yet implemented")
+        val team = teamAdapter.getTeamList()[position]
+        val intent = Intent(this, PlayerActivity::class.java)
+        intent.putExtra("teamId", team.id)
+        intent.putExtra("teamName", team.fullName)
+        intent.putExtra("wins", team.wins)
+        intent.putExtra("losses", team.losses)
+        startActivity(intent)
     }
 }

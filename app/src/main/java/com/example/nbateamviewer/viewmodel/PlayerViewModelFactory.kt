@@ -2,13 +2,13 @@ package com.example.nbateamviewer.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.nbateamviewer.repository.TeamRepository
+import com.example.nbateamviewer.repository.PlayerRepository
 
-class TeamViewModelFactory(
-    private val teamRepository: TeamRepository
+class PlayerViewModelFactory(
+    private val playerRepository: PlayerRepository
 ) : ViewModelProvider.NewInstanceFactory() {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return TeamViewModel(teamRepository) as T
+        return PlayerViewModel(playerRepository) as T
     }
 }

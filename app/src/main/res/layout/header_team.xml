@@ -19,7 +19,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:text="@string/team_name"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:textColor="@android:color/darker_gray"/>
 
     <TextView
         android:id="@+id/winsText"
@@ -34,7 +35,8 @@
         app:layout_constraintTop_toTopOf="parent"
         android:text="@string/wins"
         android:gravity="center"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:textColor="@android:color/darker_gray"/>
 
     <TextView
         android:id="@+id/lossesText"
@@ -50,6 +52,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:text="@string/losses"
         android:gravity="center"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:textColor="@android:color/darker_gray"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

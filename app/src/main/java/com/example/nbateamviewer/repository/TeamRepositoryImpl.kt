@@ -11,13 +11,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.threeten.bp.ZonedDateTime
 
-class NBARepositoryImpl(
+class TeamRepositoryImpl(
     private val teamDao: TeamDao,
     private val playerDao: PlayerDao,
     private val nbaDataSource: NBADataSource
-) : NBARepository {
+) : TeamRepository {
 
     init {
         nbaDataSource.downloadedNBAData.observeForever { newNBAData ->
@@ -43,17 +42,7 @@ class NBARepositoryImpl(
         }
     }
 
-//    private suspend fun initNBAData() {
-//        if (isFetchNeeded(ZonedDateTime.now().minusHours(1)))
-//            fetchNBAData()
-//    }
-
     private suspend fun fetchNBAData() {
         nbaDataSource.fetchNBAData()
     }
-
-//    private fun isFetchNeeded(lastFetchTime: ZonedDateTime): Boolean {
-//        val halfHour = ZonedDateTime.now().minusMinutes(30)
-//        return lastFetchTime.isBefore(halfHour)
-//    }
 }

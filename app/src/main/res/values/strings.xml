@@ -3,4 +3,8 @@
     <string name="team_name">Team Name</string>
     <string name="wins">Wins</string>
     <string name="losses">Losses</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="position">Position</string>
+    <string name="number">Number</string>
 </resources>
