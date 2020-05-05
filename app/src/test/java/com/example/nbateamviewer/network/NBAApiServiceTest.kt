@@ -1,4 +1,4 @@
-package com.example.nbateamviewer
+package com.example.nbateamviewer.network
 
 import com.example.nbateamviewer.data.NBAData
 import com.example.nbateamviewer.data.Player
@@ -14,12 +14,10 @@ import org.junit.Before
 import org.junit.Test
 
 
-class NBAApiServiceUnitTest {
+class NBAApiServiceTest {
 
     private lateinit var apiService: NBAApiService
-
     private lateinit var nbaData: NBAData
-
     private val teams = listOf(Team("Los Angeles Lakers", 18, 0, listOf(Player("Kobe", 2408, "Bryant", 24, "SG")), 82))
 
     @Before
@@ -30,7 +28,6 @@ class NBAApiServiceUnitTest {
             on{getNBAData()} doReturn GlobalScope.async { nbaData }
         }
     }
-
 
     @ExperimentalCoroutinesApi
     @Test
